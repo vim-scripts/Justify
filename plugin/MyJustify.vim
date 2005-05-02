@@ -1,7 +1,9 @@
 " Just another justifier
-" Version:    0.1
+" Version:    0.2
 " Maintainer: Kontra, Gergely <kgergely@mcl.hu>
-fu! <SID>Justify(...) range
+" GetLatestVimScripts: 177 1 :AutoInstall: MyJustify.vim
+" Improved by Charles E. Campbell, Jr.
+fun! <SID>Justify(...) range
   if a:0|let tw=&tw|let &tw=a:1|endif
   exe a:firstline
   exe 'norm! V'.a:lastline.'Ggq'
@@ -15,9 +17,9 @@ fu! <SID>Justify(...) range
       continue
     endif
     while strlen(getline('.'))<&tw
-      norm E
+      silent! norm! E
       if strpart(getline('.'),col('.'))=~'^\s*$'
-	norm ^E
+        norm! ^E
       endif
       exe "norm! a \<Esc>"
     endw
@@ -25,6 +27,6 @@ fu! <SID>Justify(...) range
   if a:0
     let &tw=tw
   endif
-endf
+endfun
 com! -nargs=? -range Justify <line1>,<line2>call <SID>Justify(<args>)
 
